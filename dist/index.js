@@ -107111,8 +107111,9 @@ function runSingleScan(options, skipArtifactUpload = false, skipVulnListGenerati
                                 core.info(summary_message);
                             }
                             // if scan was set to fail the pipeline should fail and show a summary of the scan results
-                            if (code != null && code > 0) {
-                                core.setFailed(summary_message);
+                            if (code != null && code > 0 && (options.breakBuildOnPolicyFindings == 'true')) {
+                                let summary_info = "Veracode SCA Scan failed with exit code " + code + "\n";
+                                core.setFailed(summary_info);
                             }
                             // Store output files as artifacts (skip if in dual-scan mode)
                             const { DefaultArtifactClient } = __nccwpck_require__(76846);
